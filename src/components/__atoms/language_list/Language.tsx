@@ -31,7 +31,7 @@ const languages: string[] = [
   "Nederlands",
 ];
 
-const LanguageSelector: React.FC = () => {
+const Language: React.FC = () => {
   const [selectedLang, setSelectedLang] = useState<string>("English");
 
   const handleChange = (event: SelectChangeEvent<string>) => {
@@ -82,4 +82,4 @@ const LanguageSelector: React.FC = () => {
   );
 };
 
-export default LanguageSelector;
+export default Language;

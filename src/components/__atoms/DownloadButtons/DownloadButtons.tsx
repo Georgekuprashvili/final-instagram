@@ -1,18 +1,11 @@
-import Image from "next/image";
 import React from "react";
 import playstore from "@/photos/playstore.jpg";
 import microsoft from "@/photos/microsoft.png";
+import Image from "next/image";
 
-const Get_app = () => {
+const DownloadButtons = () => {
   return (
-    <div className="flex flex-col items-center justify-between gap-[10px]">
-      <div className="w-[350px] h-[60px] border-gray-500 border-[1px] flex justify-center items-center">
-        <p className="text-[white]">
-          Don&apos;t have an account?
-          <button className="text-[#259af6] ml-1">Sign up</button>
-        </p>
-      </div>
-
+    <div className="flex flex-col justify-center items-center gap-[5px]">
       <p className="text-white">Get the app</p>
 
       <div className="flex justify-center gap-[8px]">
@@ -40,8 +33,9 @@ const Get_app = () => {
             <Image
               src={microsoft}
               alt="Get it on Microsoft"
-              fill
-              className="object-contain"
+              width={135}
+              height={40}
+              className="w-[auto] h-[auto]"
             />
           </div>
         </a>
@@ -50,4 +44,4 @@ const Get_app = () => {
   );
 };
 
-export default Get_app;
+export default DownloadButtons;

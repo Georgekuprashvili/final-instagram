@@ -1,6 +1,6 @@
 import Image from "next/image";
 import mobileImg from "@/photos/mobile.jpg";
-function Mobile_img() {
+function MobileImg() {
   return (
     <div className="w-[380px] h-[580px]">
       <Image
@@ -13,4 +13,4 @@ function Mobile_img() {
   );
 }
 
-export default Mobile_img;
+export default MobileImg;
