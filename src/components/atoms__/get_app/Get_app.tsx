@@ -9,7 +9,7 @@ const Get_app = () => {
       <div className="flex  flex-col items-center justify-between gap-[10px]">
         <div className="w-[350px] h-[60px] border-gray-500 border-[1px] flex justify-center items-center">
           <p className="text-[white]">
-            Don't have an account?{" "}
+            Don't have an account?
             <button className="text-[#259af6]">Sign up</button>
           </p>
         </div>
@@ -27,7 +27,7 @@ const Get_app = () => {
                 alt="Get it on Google Play"
                 width={135}
                 height={40}
-                className="h-[50px]"
+                className="w-auto h-auto"
               />
             </button>
           </a>
@@ -38,9 +38,10 @@ const Get_app = () => {
             <button className="bg-transparent p-0 border-none">
               <Image
                 src={microsoft}
-                alt="Get it on microsoft"
+                alt="Get it on Microsoft"
                 width={135}
                 height={40}
+                className="w-[150px] h-[60px]"
               />
             </button>
           </a>

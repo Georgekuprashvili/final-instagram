@@ -9,7 +9,13 @@ const LoginBox = () => {
 
   return (
     <div className="w-[350px] h-[410px] border-gray-500 border-[1px] flex flex-col items-center justify-center gap-[10px]">
-      <Image src={instagram} width={175} height={40} alt="Instagram Logo" />
+      <Image
+        src={instagram}
+        width={175}
+        height={40}
+        alt="Instagram Logo"
+        className="w-auto h-auto"
+      />
 
       <form className="flex flex-col items-center">
         <input
