@@ -62,8 +62,8 @@ const RegisterInputs = () => {
   };
 
   return (
-    <div className="flex justify-center items-center flex-col gap-[10px] mt-[10px]">
-      <div className="border-gray-500 border-[1px] flex flex-col items-center justify-center gap-[5px] w-[350px] h-[550px]">
+    <div className="flex justify-center items-center flex-col gap-[5px] mt-[10px]">
+      <div className="border-gray-500 border-[1px] flex flex-col items-center justify-center gap-[5px] w-[350px] h-[570px]">
         <Image
           src={instagram}
           width={175}
@@ -93,7 +93,7 @@ const RegisterInputs = () => {
           Login in with Facebook
         </button>
 
-        <div className="flex items-center w-full my-4 px-[45px]">
+        <div className="flex items-center w-full my-2 px-[45px]">
           <hr className="flex-grow border-gray-500" />
           <span className="text-gray-400 mx-3 text-sm">OR</span>
           <hr className="flex-grow border-gray-500" />
@@ -152,56 +152,55 @@ const RegisterInputs = () => {
             <p className="text-red-500 text-xs">{errors.username.message}</p>
           )}
 
+          <p className="text-xs text-[9px] text-gray-400 my-2 text-center w-[268px]">
+            People who use our service may have uploaded your contact
+            information to Instagram.{" "}
+            <a
+              href="https://www.facebook.com/help/instagram/261704639352628"
+              className="text-blue-400"
+              target="_blank"
+            >
+              Learn More
+            </a>
+          </p>
+
+          <p className="text-xs  text-[9px] text-gray-400  text-center w-[268px]">
+            By signing up, you agree to our{" "}
+            <a
+              href="https://help.instagram.com/581066165581870/?locale=en_US"
+              className="text-blue-400"
+              target="_blank"
+            >
+              Terms
+            </a>
+            ,{" "}
+            <a
+              href="https://www.facebook.com/privacy/policy"
+              className="text-blue-400"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://privacycenter.instagram.com/policies/cookies/"
+              className="text-blue-400"
+              target="_blank"
+            >
+              Cookies Policy
+            </a>
+            .
+          </p>
           <button
             type="submit"
-            className="bg-[#259af6] hover:bg-blue-800 w-[268px] h-[34px] rounded-lg text-[white] mt-2"
+            className="bg-[#259af6] mt-[8px] hover:bg-blue-800 w-[268px] h-[34px] rounded-lg text-[white] "
           >
             Sign up
           </button>
         </form>
-
-        <p className="text-xs text-gray-400 my-2 text-center w-[268px]">
-          People who use our service may have uploaded your contact information
-          to Instagram.{" "}
-          <a
-            href="https://www.facebook.com/help/instagram/261704639352628"
-            className="text-blue-400"
-            target="_blank"
-          >
-            Learn More
-          </a>
-        </p>
-
-        <p className="text-xs text-gray-400 mb-4 text-center w-[268px]">
-          By signing up, you agree to our{" "}
-          <a
-            href="https://help.instagram.com/581066165581870/?locale=en_US"
-            className="text-blue-400"
-            target="_blank"
-          >
-            Terms
-          </a>
-          ,{" "}
-          <a
-            href="https://www.facebook.com/privacy/policy"
-            className="text-blue-400"
-            target="_blank"
-          >
-            Privacy Policy
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://privacycenter.instagram.com/policies/cookies/"
-            className="text-blue-400"
-            target="_blank"
-          >
-            Cookies Policy
-          </a>
-          .
-        </p>
       </div>
 
-      <div className="border-gray-500 border-[1px] flex flex-col items-center justify-center w-[350px] h-[70px]">
+      <div className="border-gray-500 border-[1px] flex flex-col items-center justify-center w-[350px] h-[55px]">
         <p className="text-white">Have an account?</p>
         <button
           className="text-[#259af6]"

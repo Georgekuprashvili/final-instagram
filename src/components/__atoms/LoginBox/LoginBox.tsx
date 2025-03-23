@@ -89,7 +89,7 @@ const LoginBox = () => {
 
         <button
           type="submit"
-          className="mt-4 w-[268px] h-[30px] bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700"
+          className="mt-6 w-[268px] h-[30px] bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700"
         >
           Log in
         </button>
@@ -101,8 +101,8 @@ const LoginBox = () => {
         <hr className="flex-grow border-gray-500" />
       </div>
 
-      <div className="flex items-center gap-[6px]">
-        <button>
+      <div className="flex items-center  gap-[6px]">
+        <button className="flex jus">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

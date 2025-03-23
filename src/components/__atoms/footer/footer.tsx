@@ -7,28 +7,28 @@ const Footer = () => {
       <div className="flex flex-wrap justify-center space-x-4">
         <a
           href="https://about.meta.com/"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Meta
         </a>
         <a
           href="https://about.instagram.com/"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           About
         </a>
         <a
           href="https://about.instagram.com/blog"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Blog
         </a>
         <a
           href="https://about.instagram.com/about-us/careers"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Jobs
@@ -36,60 +36,60 @@ const Footer = () => {
         <a
           href="https://help.instagram.com"
           target="_blank"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
         >
           Help
         </a>
         <a
           href="https://developers.facebook.com/docs/instagram-platform"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           API
         </a>
         <a
           href="https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Privacy
         </a>
         <a
           href="https://help.instagram.com/581066165581870/"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Terms
         </a>
         <a
           href="https://www.instagram.com/explore/locations/"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Locations
         </a>
         <a
           href="https://www.instagram.com/web/lite/"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Instagram Lite
         </a>
         <a
           href="https://www.threads.net"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Threads
         </a>
         <a
           href="https://www.facebook.com/help/instagram/261704639352628"
-          className="hover:underline"
+          className="hover:underline text-[12px]"
           target="_blank"
         >
           Contact Uploading & Non-Users
         </a>
-        <a href="/" className="hover:underline">
+        <a href="/" className="hover:underline text-[12px]">
           Meta Verified
         </a>
       </div>
