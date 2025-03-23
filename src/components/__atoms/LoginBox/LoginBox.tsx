@@ -36,7 +36,7 @@ const LoginBox = () => {
     try {
       await loginUser(data.email, data.password);
       router.push("/main");
-    } catch (error: any) {
+    } catch {
       setError("email", { message: "მომხმარებელი ან პაროლი არასწორია" });
       setError("password", { message: "მომხმარებელი ან პაროლი არასწორია" });
     }
@@ -78,7 +78,6 @@ const LoginBox = () => {
               {errors.password.message}
             </p>
           )}
-          {/** Show/hide toggle */}
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -96,7 +95,6 @@ const LoginBox = () => {
         </button>
       </form>
 
-      {/* Optional stuff below */}
       <div className="flex items-center w-full my-4 px-[45px]">
         <hr className="flex-grow border-gray-500" />
         <span className="text-gray-400 mx-3 text-sm">OR</span>
@@ -117,6 +115,7 @@ const LoginBox = () => {
               </g>
             </g>
           </svg>
+          ;
         </button>
         <button className="text-[#259af6] hover:text-white">
           Log in with Facebook

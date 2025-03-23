@@ -56,8 +56,8 @@ const RegisterInputs = () => {
       await registerUser(data.email, data.password);
       alert("Registration successful!");
       router.push("/login");
-    } catch (error: any) {
-      alert("Registration failed: " + error.message);
+    } catch {
+      alert("Registration failed");
     }
   };
 
@@ -85,7 +85,7 @@ const RegisterInputs = () => {
             >
               <g fill="#fff">
                 <g transform="scale(5.12,5.12)">
-                  <path d="M25,3c-12.15,0 -22,9.85 -22,22c0,11.03 8.125,20.137 18.712,21.728v-15.897h-5.443v-5.783h5.443v-3.848c0,-6.371 3.104,-9.168 8.399,-9.168c2.536,0 3.877,0.188 4.512,0.274v5.048h-3.612c-2.248,0 -3.033,2.131 -3.033,4.533v3.161h6.588l-0.894,5.783h-5.694v15.944c10.738,-1.457 19.022,-10.638 19.022,-21.775c0,-12.15 -9.85,-22 -22,-22z"></path>
+                  <path d="M25,3c-12.15,0 -22,9.85 -22,22c0,11.03 8.125,20.137 18.712,21.728v-15.897h-5.443v-5.783h5.443v-3.848c0,-6.371 3.104,-9.168 8.399,-9.168c2.536,0 3.877,0.188 4.512,0.274v5.048h-3.612c-2.248,0 -3.033,2.131 -3.033,4.533v3.161h6.588l-0.894,5.783h-5.694v15.944c10.738,-1.457 19.022,-10.638 19.022,-21.775c0,-12.15 -9.85,-22 -22,-22z" />
                 </g>
               </g>
             </svg>
@@ -159,9 +159,10 @@ const RegisterInputs = () => {
             Sign up
           </button>
         </form>
+
         <p className="text-xs text-gray-400 my-2 text-center w-[268px]">
           People who use our service may have uploaded your contact information
-          to Instagram.
+          to Instagram.{" "}
           <a
             href="https://www.facebook.com/help/instagram/261704639352628"
             className="text-blue-400"
@@ -172,7 +173,7 @@ const RegisterInputs = () => {
         </p>
 
         <p className="text-xs text-gray-400 mb-4 text-center w-[268px]">
-          By signing up, you agree to our
+          By signing up, you agree to our{" "}
           <a
             href="https://help.instagram.com/581066165581870/?locale=en_US"
             className="text-blue-400"
@@ -180,15 +181,15 @@ const RegisterInputs = () => {
           >
             Terms
           </a>
-          ,
+          ,{" "}
           <a
             href="https://www.facebook.com/privacy/policy"
             className="text-blue-400"
             target="_blank"
           >
             Privacy Policy
-          </a>
-          , and
+          </a>{" "}
+          and{" "}
           <a
             href="https://privacycenter.instagram.com/policies/cookies/"
             className="text-blue-400"
@@ -199,6 +200,7 @@ const RegisterInputs = () => {
           .
         </p>
       </div>
+
       <div className="border-gray-500 border-[1px] flex flex-col items-center justify-center w-[350px] h-[70px]">
         <p className="text-white">Have an account?</p>
         <button
@@ -208,6 +210,7 @@ const RegisterInputs = () => {
           Log in
         </button>
       </div>
+
       <DownloadButtons />
     </div>
   );
