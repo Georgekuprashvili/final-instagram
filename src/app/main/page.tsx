@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app } from "@/Firebase/firebaseConfig"; 
+import { app } from "@/Firebase/firebaseConfig";
+import StoriesSlider from "@/components/__organisms/StoriesSlider/StoriesSlider";
 
 export default function MainPage() {
   const router = useRouter();
@@ -18,11 +19,16 @@ export default function MainPage() {
     });
 
     return () => unsubscribe();
-  }, [router]); 
+  }, [router]);
 
   return (
-    <div className="text-white text-xl text-center mt-10">
-      Main Page - Welcome!
-    </div>
+    <>
+      <div className="w-full h-[100vh] flex flex-col  items-center pt-4">
+        <div>
+          <StoriesSlider />
+        </div>
+        <h1>giorgi</h1>
+      </div>
+    </>
   );
 }

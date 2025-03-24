@@ -9,6 +9,7 @@ import instagram from "@/photos/instagram_letter.png";
 import DownloadButtons from "../DownloadButtons/DownloadButtons";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/Firebase/firebaseAuth.ts";
+import { loginWithFacebook } from "@/Firebase/firebaseAuth.ts";
 
 const schema = yup.object().shape({
   email: yup
@@ -75,7 +76,15 @@ const RegisterInputs = () => {
           Sign up to see photos and videos from your friends.
         </h4>
 
-        <button className="bg-[#259af6] hover:bg-blue-800 w-[268px] h-[34px] rounded-lg text-[white] flex items-center justify-center gap-[10px] mt-[10px]">
+        <button
+          onClick={async () => {
+            try {
+              await loginWithFacebook();
+              router.push("/main");
+            } catch {}
+          }}
+          className="bg-[#259af6] hover:bg-blue-800 w-[268px] h-[34px] rounded-lg text-[white] flex items-center justify-center gap-[10px] mt-[10px]"
+        >
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,9 +99,8 @@ const RegisterInputs = () => {
               </g>
             </svg>
           </span>
-          Login in with Facebook
+          Log in with Facebook
         </button>
-
         <div className="flex items-center w-full my-2 px-[45px]">
           <hr className="flex-grow border-gray-500" />
           <span className="text-gray-400 mx-3 text-sm">OR</span>

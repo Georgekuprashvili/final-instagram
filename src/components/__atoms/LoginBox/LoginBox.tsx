@@ -8,6 +8,7 @@ import * as yup from "yup";
 import instagram from "@/photos/instagram_letter.png";
 import { useRouter } from "next/navigation";
 import { loginUser } from "@/Firebase/firebaseAuth.ts";
+import { loginWithFacebook } from "@/Firebase/firebaseAuth.ts";
 
 const schema = yup.object().shape({
   email: yup.string().required("მიუთითე ელფოსტა ან მომხმარებელი"),
@@ -117,7 +118,15 @@ const LoginBox = () => {
           </svg>
           ;
         </button>
-        <button className="text-[#259af6] hover:text-white">
+        <button
+          onClick={async () => {
+            try {
+              await loginWithFacebook();
+              router.push("/main");
+            } catch {}
+          }}
+          className="text-[#259af6] hover:text-white"
+        >
           Log in with Facebook
         </button>
       </div>
