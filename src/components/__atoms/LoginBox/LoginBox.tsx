@@ -116,7 +116,6 @@ const LoginBox = () => {
               </g>
             </g>
           </svg>
-          ;
         </button>
         <button
           onClick={async () => {

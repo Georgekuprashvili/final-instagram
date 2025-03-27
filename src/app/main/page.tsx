@@ -27,7 +27,6 @@ export default function MainPage() {
         <div>
           <StoriesSlider />
         </div>
-        <h1>giorgi</h1>
       </div>
     </>
   );

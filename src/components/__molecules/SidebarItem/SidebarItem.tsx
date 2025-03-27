@@ -4,8 +4,13 @@ import { ReactNode } from "react";
 type SidebarItemProps = {
   iconSrc: string | ReactNode;
   label: string;
+  href?: string;
 };
 
-export default function SidebarItem({ iconSrc, label }: SidebarItemProps) {
-  return <IconButton iconSrc={iconSrc} label={label} />;
+export default function SidebarItem({
+  iconSrc,
+  label,
+  href,
+}: SidebarItemProps) {
+  return <IconButton iconSrc={iconSrc} label={label} href={href} />;
 }
