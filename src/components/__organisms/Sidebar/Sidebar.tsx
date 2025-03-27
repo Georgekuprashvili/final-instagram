@@ -1,7 +1,6 @@
 import MoreDropdown from "@/components/__atoms/MoreDropdown/MoreDropdown";
 import SidebarItem from "@/components/__molecules/SidebarItem/SidebarItem";
-import instagram from "@/photos/instagram_letter.png";
-import Image from "next/image";
+
 
 export default function Sidebar() {
   return (
