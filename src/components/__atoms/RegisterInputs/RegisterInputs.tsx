@@ -8,8 +8,7 @@ import * as yup from "yup";
 import instagram from "@/photos/instagram_letter.png";
 import DownloadButtons from "../DownloadButtons/DownloadButtons";
 import { useRouter } from "next/navigation";
-import { registerUser } from "@/Firebase/firebaseAuth.ts";
-import { loginWithFacebook } from "@/Firebase/firebaseAuth.ts";
+import { loginWithFacebook, registerUser } from "@/Firebase/firebaseAuth.ts";
 
 const schema = yup.object().shape({
   email: yup
@@ -54,14 +53,19 @@ const RegisterInputs = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await registerUser(data.email, data.password);
+      await registerUser(
+        data.email,
+        data.password,
+        data.fullName,
+        data.username
+      );
       alert("Registration successful!");
       router.push("/login");
-    } catch {
+    } catch (error) {
+      console.error("Registration failed:", error);
       alert("Registration failed");
     }
   };
-
   return (
     <div className="flex justify-center items-center flex-col gap-[5px] mt-[10px]">
       <div className="border-gray-500 border-[1px] flex flex-col items-center justify-center gap-[5px] w-[350px] h-[570px]">
