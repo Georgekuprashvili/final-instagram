@@ -1,6 +1,12 @@
 [
   {
-    "origin": ["*"],
+    "origin": [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://localhost:3002",
+      "http://localhost:3010",
+      "https://final-instagram.vercel.app"
+    ],
     "method": ["GET", "POST", "PUT"],
     "maxAgeSeconds": 3600
   }
