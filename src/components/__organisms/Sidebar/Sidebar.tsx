@@ -1,8 +1,12 @@
 import MoreDropdown from "@/components/__atoms/MoreDropdown/MoreDropdown";
 import SidebarItem from "@/components/__molecules/SidebarItem/SidebarItem";
+import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal";
 
+type SidebarProps = {
+  setIsAddPostOpen: (open: boolean) => void;
+};
 
-export default function Sidebar() {
+export default function Sidebar({ setIsAddPostOpen }: SidebarProps) {
   return (
     <div className="fixed h-screen w-20 lg:w-64 border-r border-zinc-200 dark:border-zinc-800 flex flex-col justify-between py-6 px-2 bg-background text-foreground">
       <div className="space-y-2 flex flex-col gap-[50px] ">
@@ -214,6 +218,7 @@ export default function Sidebar() {
               </svg>
             }
             label="Create"
+            onClick={() => setIsAddPostOpen(true)}
           />
           <SidebarItem
             iconSrc={
