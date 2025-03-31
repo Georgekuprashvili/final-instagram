@@ -1,6 +1,5 @@
 import MoreDropdown from "@/components/__atoms/MoreDropdown/MoreDropdown";
 import SidebarItem from "@/components/__molecules/SidebarItem/SidebarItem";
-import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal";
 
 type SidebarProps = {
   setIsAddPostOpen: (open: boolean) => void;
