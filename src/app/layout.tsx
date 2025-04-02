@@ -5,7 +5,7 @@ import { ReactNode, useState } from "react";
 import { usePathname } from "next/navigation";
 import Sidebar from "@/components/__organisms/Sidebar/Sidebar";
 import { ThemeProvider } from "@/context/ThemeContext";
-import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal";
+import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal"; 
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();

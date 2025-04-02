@@ -3,69 +3,55 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/Firebase/firebaseConfig";
-import { ProfileHeader } from "@/components/__molecules/ProfileHeader/ProfileHeader";
+import { doc, getDoc } from "firebase/firestore";
+import ProfileHeader from "@/components/__molecules/ProfileHeader/ProfileHeader";
 
-type UserData = {
+interface UserData {
   username: string;
   fullName: string;
-  photoURL: string;
+  email: string;
   postsCount: number;
-  followers: string[];
-  following: string[];
-};
+  followers: number;
+  following: number;
+}
 
 export default function ProfilePage() {
+  const router = useRouter();
   const [user, loading] = useAuthState(auth);
   const [userData, setUserData] = useState<UserData | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [loading, user, router]);
+    if (!loading && !user) router.push("/login");
+  }, [user, loading, router]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUser = async () => {
       if (!user) return;
-
       try {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          setUserData(docSnap.data() as UserData);
-        } else {
-          console.warn("User document not found in Firestore");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+        const ref = doc(db, "users", user.uid);
+        const snap = await getDoc(ref);
+        if (snap.exists()) setUserData(snap.data() as UserData);
+      } catch (err) {
+        console.error("Error loading user:", err);
       }
     };
 
-    fetchUserData();
+    fetchUser();
   }, [user]);
 
-  if (loading || !user) {
-    return <div className="text-white p-4">Loading user...</div>;
-  }
-
-  if (!userData) {
+  if (loading || !user) return <div className="text-white p-4">Loading...</div>;
+  if (!userData)
     return <div className="text-white p-4">Loading profile...</div>;
-  }
 
   return (
-    <main className="text-white max-w-5xl mx-auto">
+    <main className="max-w-5xl mx-auto w-full text-white">
       <ProfileHeader
         username={userData.username}
         fullName={userData.fullName}
-        photoURL={userData.photoURL}
         postsCount={userData.postsCount}
         followers={userData.followers}
         following={userData.following}
-        onPhotoUpload={() => {}}
       />
     </main>
   );

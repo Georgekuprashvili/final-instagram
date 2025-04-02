@@ -1,74 +1,77 @@
 "use client";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/Firebase/firebaseConfig";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
-type ProfileHeaderProps = {
+type Props = {
   username: string;
   fullName: string;
-  photoURL: string;
   postsCount: number;
-  followers: string[];
-  following: string[];
-  onPhotoUpload: (file: File) => void;
+  followers: number;
+  following: number;
 };
 
-export const ProfileHeader = ({
+export default function ProfileHeader({
   username,
   fullName,
-  photoURL,
   postsCount,
   followers,
   following,
-  onPhotoUpload,
-}: ProfileHeaderProps) => {
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      onPhotoUpload(e.target.files[0]);
-    }
+}: Props) {
+  const [user] = useAuthState(auth);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem(`profile-photo-${user?.uid}`);
+    if (savedImage) setProfileImage(savedImage);
+  }, [user?.uid]);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result as string;
+      localStorage.setItem(`profile-photo-${user?.uid}`, base64);
+      setProfileImage(base64);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
-    <div className="flex  gap-10  pt-10 justify-center items-center">
-      <div className="relative group w-28 h-28 rounded-full overflow-hidden bg-neutral-800">
-        <Image
-          src={photoURL || "/avatar.svg"}
-          alt="avatar"
-          fill
-          unoptimized
-          className="object-cover"
-          priority
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className="absolute inset-0 opacity-0 cursor-pointer"
-        />
-        <div className="absolute bottom-0 w-full text-center text-xs text-gray-400 group-hover:opacity-100 opacity-0 transition">
-          Change Photo
-        </div>
-      </div>
+    <div className="flex items-start gap-12 px-8 pt-12 text-white">
+      <div className="flex flex-col items-center text-center">
+        <label className="cursor-pointer">
+          <Image
+            src={profileImage || "/avatar.svg"}
+            alt="Profile"
+            width={160} 
+            height={160} 
+            className="w-40 h-40 rounded-full object-cover border border-zinc-700"
+            unoptimized 
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+        </label>
 
-      <div>
-        <div className="flex items-center gap-4">
-          <h2 className="text-2xl font-semibold">{username}</h2>
-          <button className="bg-neutral-800 px-3 py-1 rounded text-sm">
-            Edit profile
-          </button>
+        <div className="mt-4">
+          <p className="font-semibold text-lg">@{username}</p>
+          <p className="text-zinc-400">{fullName}</p>
+
+          <div className="text-left mt-4 space-y-1 text-sm">
+            <p>Posts: {postsCount}</p>
+            <p>Followers: {followers}</p>
+            <p>Following: {following}</p>
+          </div>
         </div>
-        <div className="flex gap-6 mt-2 text-sm">
-          <p>
-            <b>{postsCount}</b> posts
-          </p>
-          <p>
-            <b>{followers.length}</b> followers
-          </p>
-          <p>
-            <b>{following.length}</b> following
-          </p>
-        </div>
-        <div className="mt-2 text-sm text-gray-400">{fullName}</div>
       </div>
     </div>
   );
-};
+}

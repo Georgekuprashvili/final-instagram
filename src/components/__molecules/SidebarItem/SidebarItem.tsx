@@ -12,7 +12,7 @@ export default function SidebarItem({
   iconSrc,
   label,
   href,
-  onClick, // ✅ Receive it
+  onClick, 
 }: SidebarItemProps) {
   return <IconButton iconSrc={iconSrc} label={label} href={href} onClick={onClick} />;
 }
