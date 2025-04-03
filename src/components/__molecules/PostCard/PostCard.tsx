@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -11,6 +13,11 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
+  deleteField,
+  getDoc,
+  updateDoc,
+  getDocs,
 } from "firebase/firestore";
 import { Bookmark, Heart, MessageCircle, Trash2 } from "lucide-react";
 
@@ -35,7 +42,7 @@ type Props = {
 export default function PostCard({ post }: Props) {
   const [user] = useAuthState(auth);
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [likes, setLikes] = useState<number>(0);
+  const [likesCount, setLikesCount] = useState<number>(0);
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -48,44 +55,82 @@ export default function PostCard({ post }: Props) {
   }, [user?.uid]);
 
   useEffect(() => {
+    const likesRef = collection(db, "posts", post.id, "likes");
+    const unsubscribe = onSnapshot(likesRef, (snapshot) => {
+      setLikesCount(snapshot.size);
+      setLiked(snapshot.docs.some((doc) => doc.id === user?.uid));
+    });
+    return () => unsubscribe();
+  }, [post.id, user?.uid]);
+
+  useEffect(() => {
+    const savedPosts = JSON.parse(localStorage.getItem("savedPosts") || "[]");
+    const isSaved = savedPosts.some((p: Post) => p.id === post.id);
+    setSaved(isSaved);
+  }, [post.id]);
+
+  useEffect(() => {
     const commentsRef = collection(db, "posts", post.id, "comments");
     const q = query(commentsRef, orderBy("createdAt", "asc"));
-
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const fetchedComments = snapshot.docs.map((doc) => ({
+      const fetched = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       })) as Comment[];
-
-      setComments(fetchedComments);
+      setComments(fetched);
     });
-
     return () => unsubscribe();
   }, [post.id]);
 
-  const handleLike = () => {
-    setLiked((prev) => !prev);
-    setLikes((prev) => (liked ? prev - 1 : prev + 1));
+  const handleLike = async () => {
+    if (!user?.uid) return;
+
+    const likeRef = doc(db, "posts", post.id, "likes", user.uid);
+
+    if (liked) {
+      await deleteDoc(likeRef);
+      setLiked(false);
+    } else {
+      await setDoc(likeRef, {
+        uid: user.uid,
+        createdAt: serverTimestamp(),
+      });
+      setLiked(true);
+    }
   };
 
-  const handleSave = () => setSaved((prev) => !prev);
+  const handleSave = () => {
+    const saved = JSON.parse(localStorage.getItem("savedPosts") || "[]");
+    const alreadySaved = saved.some((p: Post) => p.id === post.id);
+
+    const updated = alreadySaved
+      ? saved.filter((p: Post) => p.id !== post.id)
+      : [...saved, post];
+
+    localStorage.setItem("savedPosts", JSON.stringify(updated));
+    setSaved(!alreadySaved);
+  };
 
   const handleComment = async () => {
     if (!commentInput.trim() || !user) return;
 
     try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userData = userDoc.exists() ? userDoc.data() : null;
+      const username = userData?.username || "unknown";
+
       await addDoc(collection(db, "posts", post.id, "comments"), {
         text: commentInput,
         uid: user.uid,
-        username: user.displayName || "user",
+        username,
         createdAt: serverTimestamp(),
       });
+
       setCommentInput("");
     } catch (err) {
       console.error("Error posting comment:", err);
     }
   };
-
   const handleDelete = async () => {
     try {
       await deleteDoc(doc(db, "posts", post.id));
@@ -106,7 +151,7 @@ export default function PostCard({ post }: Props) {
             width={40}
             height={40}
             className="w-10 h-10 rounded-full object-cover"
-            unoptimized 
+            unoptimized
           />
           <p className="text-xs text-gray-400">@{post.username}</p>
         </div>
@@ -123,25 +168,35 @@ export default function PostCard({ post }: Props) {
         width={800}
         height={600}
         className="w-full max-h-[600px] object-cover"
-        unoptimized 
+        unoptimized
       />
 
       <div className="flex gap-4 px-4 py-2">
         <button onClick={handleLike}>
-          <Heart size={22} fill={liked ? "red" : "none"} stroke="white" />
+          <Heart
+            size={22}
+            fill={liked ? "red" : "none"}
+            stroke="white"
+            strokeWidth={1.5}
+          />
         </button>
         <button onClick={() => setVisible(true)}>
           <MessageCircle size={22} stroke="white" />
         </button>
         <button onClick={handleSave} className="ml-auto">
-          <Bookmark size={22} fill={saved ? "white" : "none"} stroke="white" />
+          <Bookmark
+            size={22}
+            fill={saved ? "white" : "none"}
+            stroke="white"
+            strokeWidth={1.5}
+          />
         </button>
       </div>
 
       <div className="px-4 pb-3 text-sm">
-        {likes > 0 && (
+        {likesCount > 0 && (
           <p className="font-semibold mb-1">
-            {likes} like{likes > 1 ? "s" : ""}
+            {likesCount} like{likesCount > 1 ? "s" : ""}
           </p>
         )}
         <p>{post.caption}</p>
@@ -150,7 +205,7 @@ export default function PostCard({ post }: Props) {
           <div className="mt-2">
             {comments.map((comment) => (
               <p key={comment.id} className="text-sm text-zinc-200">
-                <span className="font-semibold mr-1">@{post.username}:</span>
+                <span className="font-semibold mr-1">@{comment.username}:</span>
                 {comment.text}
               </p>
             ))}
