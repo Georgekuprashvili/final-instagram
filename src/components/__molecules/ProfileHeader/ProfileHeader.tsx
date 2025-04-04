@@ -9,16 +9,14 @@ import {
   setDoc,
   deleteDoc,
   onSnapshot,
-  getCountFromServer,
   collection,
+  getCountFromServer,
 } from "firebase/firestore";
 
 type Props = {
   username: string;
   fullName: string;
   postsCount: number;
-  followers: number;
-  following: number;
   userId: string;
 };
 
@@ -26,14 +24,13 @@ export default function ProfileHeader({
   username,
   fullName,
   postsCount,
-  followers,
-  following,
   userId,
 }: Props) {
   const [user] = useAuthState(auth);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [followerCount, setFollowerCount] = useState(followers);
+  const [followerCount, setFollowerCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
 
   useEffect(() => {
     if (!user?.uid || !userId) return;
@@ -46,14 +43,20 @@ export default function ProfileHeader({
       setIsFollowing(snap.exists());
     });
 
-    const fetchFollowerCount = async () => {
-      const snapshot = await getCountFromServer(
+    const fetchCounts = async () => {
+      const followersSnap = await getCountFromServer(
         collection(db, "users", userId, "followers")
       );
-      setFollowerCount(snapshot.data().count);
+      const followingSnap = await getCountFromServer(
+        collection(db, "users", userId, "following")
+      );
+
+      setFollowerCount(followersSnap.data().count);
+      setFollowingCount(followingSnap.data().count);
     };
 
-    fetchFollowerCount();
+    fetchCounts();
+
     return () => unsubscribe();
   }, [user?.uid, userId]);
 
@@ -132,7 +135,7 @@ export default function ProfileHeader({
             <span className="font-semibold">{followerCount}</span> followers
           </p>
           <p>
-            <span className="font-semibold">{following}</span> following
+            <span className="font-semibold">{followingCount}</span> following
           </p>
         </div>
 
