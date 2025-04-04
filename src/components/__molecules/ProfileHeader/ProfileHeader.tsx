@@ -18,7 +18,7 @@ type Props = {
   postsCount: number;
   followers: number[] | number;
   following: number[] | number;
-  userId: string; 
+  userId: string;
 };
 
 export default function ProfileHeader({
@@ -74,8 +74,6 @@ export default function ProfileHeader({
           followers: arrayUnion(user.uid),
         });
 
-   
-
         setIsFollowing(true);
       }
     } catch (error) {
@@ -87,7 +85,7 @@ export default function ProfileHeader({
     <section className="flex items-start gap-12 px-8 pt-10 text-white max-w-5xl mx-auto">
       <label className="cursor-pointer">
         <Image
-          src={profileImage || "/avatar.svg"}
+          src={profileImage || "/photos/avatar.svg"}
           alt="Profile"
           width={160}
           height={160}

@@ -6,7 +6,7 @@ import { auth } from "@/Firebase/firebaseConfig";
 import SidebarItem from "@/components/__molecules/SidebarItem/SidebarItem";
 import MoreDropdown from "@/components/__atoms/MoreDropdown/MoreDropdown";
 import Image from "next/image";
-
+import { useSearchPanel } from "@/context/useSearchPanel";
 type SidebarProps = {
   setIsAddPostOpen: (open: boolean) => void;
 };
@@ -24,6 +24,7 @@ export default function Sidebar({}: SidebarProps) {
     const img = localStorage.getItem(`profile-photo-${user?.uid}`);
     if (img) setProfileImage(img);
   }, [user?.uid]);
+  const { openPanel } = useSearchPanel();
 
   return (
     <div className="fixed h-screen w-20 lg:w-64 border-r border-zinc-200 dark:border-zinc-800 flex flex-col justify-between py-6 px-2 bg-background text-foreground">
@@ -89,6 +90,7 @@ export default function Sidebar({}: SidebarProps) {
                 ></line>
               </svg>
             }
+            onClick={openPanel}
             label="Search"
           />
           <SidebarItem
@@ -249,12 +251,12 @@ export default function Sidebar({}: SidebarProps) {
           <SidebarItem
             iconSrc={
               <Image
-                src={profileImage || "/avatar.svg"}
+                src={profileImage || "/photos/avatar.svg"}
                 alt="Profile"
-                width={24} 
-                height={24} 
+                width={24}
+                height={24}
                 className="w-6 h-6 rounded-full object-cover"
-                unoptimized 
+                unoptimized
               />
             }
             label="Profile"

@@ -14,6 +14,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import ProfileHeader from "@/components/__molecules/ProfileHeader/ProfileHeader";
+import Image from "next/image";
 
 interface UserData {
   username: string;
@@ -113,11 +114,14 @@ export default function ProfilePage() {
 
       <div className="grid grid-cols-3 gap-1 mt-4">
         {(activeTab === "posts" ? posts : savedPosts).map((post) => (
-          <img
+          <Image
             key={post.id}
             src={post.imageURL}
             alt={post.caption}
+            width={300} 
+            height={300}
             className="aspect-square object-cover hover:brightness-75 transition cursor-pointer"
+            unoptimized 
           />
         ))}
         {activeTab === "saved" && savedPosts.length === 0 && (

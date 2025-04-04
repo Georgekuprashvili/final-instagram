@@ -5,7 +5,8 @@ import { ReactNode, useState } from "react";
 import { usePathname } from "next/navigation";
 import Sidebar from "@/components/__organisms/Sidebar/Sidebar";
 import { ThemeProvider } from "@/context/ThemeContext";
-import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal"; 
+import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal";
+import SearchDrawer from "@/components/__organisms/SearchDrawer/SearchDrawer";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {isAddPostOpen && (
             <AddPostModal onClose={() => setIsAddPostOpen(false)} />
           )}
+          <SearchDrawer />
         </ThemeProvider>
       </body>
     </html>

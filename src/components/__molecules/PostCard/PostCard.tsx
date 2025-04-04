@@ -14,10 +14,7 @@ import {
   query,
   serverTimestamp,
   setDoc,
-  deleteField,
   getDoc,
-  updateDoc,
-  getDocs,
 } from "firebase/firestore";
 import { Bookmark, Heart, MessageCircle, Trash2 } from "lucide-react";
 
@@ -146,7 +143,7 @@ export default function PostCard({ post }: Props) {
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <Image
-            src={profileImage || "/avatar.svg"}
+            src={profileImage || "/photos/avatar.svg"}
             alt="Profile"
             width={40}
             height={40}
