@@ -43,8 +43,6 @@ export default async function PublicProfilePage({ params }: Props) {
         username={userData.username}
         fullName={userData.fullName}
         postsCount={posts.length}
-        followers={userData.followers || []}
-        following={userData.following || []}
         userId={userId}
       />
 

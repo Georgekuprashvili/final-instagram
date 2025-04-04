@@ -75,7 +75,6 @@ export default function ProfilePage() {
   }, [user]);
 
   if (loading || !userData) return <div className="text-white">Loading...</div>;
-  
 
   return (
     <main className="max-w-4xl mx-auto py-10 text-white">
@@ -83,8 +82,6 @@ export default function ProfilePage() {
         username={userData.username}
         fullName={userData.fullName}
         postsCount={posts.length}
-        followers={userData.followers}
-        following={userData.following}
         userId={user?.uid || ""}
       />
 
@@ -119,10 +116,10 @@ export default function ProfilePage() {
             key={post.id}
             src={post.imageURL}
             alt={post.caption}
-            width={300} 
+            width={300}
             height={300}
             className="aspect-square object-cover hover:brightness-75 transition cursor-pointer"
-            unoptimized 
+            unoptimized
           />
         ))}
         {activeTab === "saved" && savedPosts.length === 0 && (
