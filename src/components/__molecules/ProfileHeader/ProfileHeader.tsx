@@ -6,18 +6,19 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   doc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  getDoc,
+  setDoc,
+  deleteDoc,
+  onSnapshot,
+  getCountFromServer,
+  collection,
 } from "firebase/firestore";
 
 type Props = {
   username: string;
   fullName: string;
   postsCount: number;
-  followers: number[] | number;
-  following: number[] | number;
+  followers: number;
+  following: number;
   userId: string;
 };
 
@@ -32,49 +33,47 @@ export default function ProfileHeader({
   const [user] = useAuthState(auth);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [followerCount, setFollowerCount] = useState(followers);
 
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user?.uid || !userId) return;
 
     const savedImage = localStorage.getItem(`profile-photo-${user.uid}`);
     if (savedImage) setProfileImage(savedImage);
 
-    const checkFollowing = async () => {
-      const currentRef = doc(db, "users", user.uid);
-      const currentSnap = await getDoc(currentRef);
-      const currentData = currentSnap.data();
-      if (currentData?.following?.includes(userId)) {
-        setIsFollowing(true);
-      }
+    const followRef = doc(db, "users", user.uid, "following", userId);
+    const unsubscribe = onSnapshot(followRef, (snap) => {
+      setIsFollowing(snap.exists());
+    });
+
+    const fetchFollowerCount = async () => {
+      const snapshot = await getCountFromServer(
+        collection(db, "users", userId, "followers")
+      );
+      setFollowerCount(snapshot.data().count);
     };
 
-    checkFollowing();
+    fetchFollowerCount();
+    return () => unsubscribe();
   }, [user?.uid, userId]);
 
   const handleFollowToggle = async () => {
-    if (!user?.uid) return;
+    if (!user?.uid || !userId) return;
 
-    const currentRef = doc(db, "users", user.uid);
-    const targetRef = doc(db, "users", userId);
+    const currentUserRef = doc(db, "users", user.uid, "following", userId);
+    const targetUserRef = doc(db, "users", userId, "followers", user.uid);
 
     try {
       if (isFollowing) {
-        await updateDoc(currentRef, {
-          following: arrayRemove(userId),
-        });
-        await updateDoc(targetRef, {
-          followers: arrayRemove(user.uid),
-        });
+        await deleteDoc(currentUserRef);
+        await deleteDoc(targetUserRef);
         setIsFollowing(false);
+        setFollowerCount((prev) => prev - 1);
       } else {
-        await updateDoc(currentRef, {
-          following: arrayUnion(userId),
-        });
-        await updateDoc(targetRef, {
-          followers: arrayUnion(user.uid),
-        });
-
+        await setDoc(currentUserRef, { uid: userId });
+        await setDoc(targetUserRef, { uid: user.uid });
         setIsFollowing(true);
+        setFollowerCount((prev) => prev + 1);
       }
     } catch (error) {
       console.error("Error toggling follow:", error);
@@ -130,16 +129,10 @@ export default function ProfileHeader({
             <span className="font-semibold">{postsCount}</span> posts
           </p>
           <p>
-            <span className="font-semibold">
-              {Array.isArray(followers) ? followers.length : followers}
-            </span>{" "}
-            followers
+            <span className="font-semibold">{followerCount}</span> followers
           </p>
           <p>
-            <span className="font-semibold">
-              {Array.isArray(following) ? following.length : following}
-            </span>{" "}
-            following
+            <span className="font-semibold">{following}</span> following
           </p>
         </div>
 

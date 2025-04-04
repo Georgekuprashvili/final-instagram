@@ -75,6 +75,7 @@ export default function ProfilePage() {
   }, [user]);
 
   if (loading || !userData) return <div className="text-white">Loading...</div>;
+  
 
   return (
     <main className="max-w-4xl mx-auto py-10 text-white">

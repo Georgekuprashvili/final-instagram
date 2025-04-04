@@ -38,7 +38,7 @@ export default function SearchDrawer() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-0 right-0 w-[400px] h-full bg-white dark:bg-black shadow-lg z-50 p-4">
+    <div className="fixed top-0 left-[60px] w-[400px] h-full bg-white dark:bg-black shadow-lg z-50 p-4">
       <button
         onClick={closePanel}
         className="text-right block ml-auto mb-4 text-lg"
