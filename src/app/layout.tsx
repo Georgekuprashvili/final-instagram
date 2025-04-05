@@ -7,6 +7,7 @@ import Sidebar from "@/components/__organisms/Sidebar/Sidebar";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal";
 import SearchDrawer from "@/components/__organisms/SearchDrawer/SearchDrawer";
+import NotificationsDrawer from "@/components/__molecules/NotificationsDrawer/NotificationsDrawer";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <AddPostModal onClose={() => setIsAddPostOpen(false)} />
           )}
           <SearchDrawer />
+          <NotificationsDrawer />
         </ThemeProvider>
       </body>
     </html>

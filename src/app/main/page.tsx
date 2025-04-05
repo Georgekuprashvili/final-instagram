@@ -7,7 +7,7 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import StoriesSlider from "@/components/__organisms/StoriesSlider/StoriesSlider";
 import PostCard from "@/components/__molecules/PostCard/PostCard";
 import AddPostModal from "@/components/__molecules/AddPostModal/AddPostModal";
-import SuggestedUsers from "@/components/__molecules/SuggestedUsers/SuggestedUsers"; 
+import SuggestedUsers from "@/components/__molecules/SuggestedUsers/SuggestedUsers";
 
 interface Post {
   id: string;

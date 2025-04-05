@@ -11,6 +11,9 @@ import {
   onSnapshot,
   collection,
   getCountFromServer,
+  addDoc,
+  serverTimestamp,
+  getDoc,
 } from "firebase/firestore";
 
 type Props = {
@@ -77,6 +80,20 @@ export default function ProfileHeader({
         await setDoc(targetUserRef, { uid: user.uid });
         setIsFollowing(true);
         setFollowerCount((prev) => prev + 1);
+
+        const userSnap = await getDoc(doc(db, "users", user.uid));
+        const currentUsername = userSnap.exists()
+          ? userSnap.data().username
+          : "Someone";
+
+        await addDoc(collection(db, "users", userId, "notifications"), {
+          type: "follow",
+          fromUserId: user.uid,
+          fromUsername: currentUsername,
+          message: "started following you.",
+          timestamp: serverTimestamp(),
+          read: false,
+        });
       }
     } catch (error) {
       console.error("Error toggling follow:", error);
