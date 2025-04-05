@@ -1,11 +1,12 @@
 "use client";
 
 import { useSearchPanel } from "@/context/useSearchPanel";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import Link from "next/link";
 import { db } from "@/Firebase/firebaseConfig";
 import Image from "next/image";
+
 interface User {
   id: string;
   username: string;
@@ -17,6 +18,7 @@ export default function SearchDrawer() {
   const { isOpen, closePanel } = useSearchPanel();
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<User[]>([]);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,6 +33,25 @@ export default function SearchDrawer() {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        drawerRef.current &&
+        !drawerRef.current.contains(event.target as Node)
+      ) {
+        closePanel();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, closePanel]);
+
   const filteredUsers = users.filter((user) =>
     user.username?.toLowerCase().includes(search.toLowerCase())
   );
@@ -38,7 +59,10 @@ export default function SearchDrawer() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-0 left-[60px] w-[400px] h-full bg-white dark:bg-black shadow-lg z-50 p-4">
+    <div
+      ref={drawerRef}
+      className="fixed top-0 left-[60px] w-[400px] h-full bg-white dark:bg-black shadow-lg z-50 p-4"
+    >
       <button
         onClick={closePanel}
         className="text-right block ml-auto mb-4 text-lg"

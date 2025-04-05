@@ -68,7 +68,7 @@ export default function NotificationsDrawer() {
   return (
     <div
       ref={drawerRef}
-      className="fixed top-0 right-0 w-[350px] h-screen bg-black border-l border-zinc-800 p-4 overflow-y-auto z-50"
+      className="fixed top-0 left-[60px] w-[350px] h-screen bg-black border-l border-zinc-800 p-4 overflow-y-auto z-50"
     >
       <div className="flex justify-between items-center mb-4 text-white">
         <h2 className="text-xl font-bold">Notifications</h2>
